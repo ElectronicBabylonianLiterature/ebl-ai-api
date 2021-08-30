@@ -39,3 +39,5 @@ Use type hints in new code and add the to old code when making changes.
 ## Acknowledgements
 - Using [FCENet](https://github.com/open-mmlab/mmocr/blob/main/configs/textdet/fcenet/README.md) (CVPR'2021)
 - MMOCR [MMOCR](https://github.com/open-mmlab/mmocr)
+- Synthetic Cuneiform Dataset (2000 Tablets) from [Cuneiform-OCR](https://github.com/cdli-gh/Cuneiform-OCR)
+- Annotated Tablets (75 Tablets) [cuneiform-sign-detection-dataset](https://compvis.github.io/cuneiform-sign-detection-dataset/)
