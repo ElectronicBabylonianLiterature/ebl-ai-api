@@ -19,6 +19,8 @@ pip3 install -r requirements.txt
 CPU version. `fcenet_dcvn.py` needs GPU, so
 requirements have to be changed (Pytorch, mmcv-full and mmocr)
 
+run `check_installation.py` to check pytorch, mmcv, mmdet and mmocr installation.
+
 ### Model
 - Using [FCENet](https://github.com/open-mmlab/mmocr/blob/main/configs/textdet/fcenet/README.md) (CVPR'2021)
 - Training [Cuneiform Sign Detection](https://github.com/ElectronicBabylonianLiterature/cuneiform-sign-detection) (Checkpoints file linked here)
