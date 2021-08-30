@@ -37,7 +37,9 @@ Use type hints in new code and add the to old code when making changes.
 `waitress-serve --port=8000 --call ebl.app:get_app`
 
 ## Acknowledgements
-- Using [FCENet](https://github.com/open-mmlab/mmocr/blob/main/configs/textdet/fcenet/README.md) (CVPR'2021)
-- MMOCR [MMOCR](https://github.com/open-mmlab/mmocr)
-- Synthetic Cuneiform Dataset (2000 Tablets) from [Cuneiform-OCR](https://github.com/cdli-gh/Cuneiform-OCR)
-- Annotated Tablets (75 Tablets) [cuneiform-sign-detection-dataset](https://compvis.github.io/cuneiform-sign-detection-dataset/)
+- FCENET [https://arxiv.org/abs/2104.10442](https://arxiv.org/abs/2104.10442)
+- Using [https://github.com/open-mmlab/mmocr/blob/main/configs/textdet/fcenet/README.md](https://github.com/open-mmlab/mmocr/blob/main/configs/textdet/fcenet/README.md) (CVPR'2021)
+- MMOCR [https://github.com/open-mmlab/mmocr](https://github.com/open-mmlab/mmocr)
+- Deep learning of cuneiform sign detection with weak supervision using transliteration alignment [https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0243039](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0243039)
+- Synthetic Cuneiform Dataset (2000 Tablets) from [https://github.com/cdli-gh/Cuneiform-OCR](https://github.com/cdli-gh/Cuneiform-OCR)
+- Annotated Tablets (75 Tablets) [https://compvis.github.io/cuneiform-sign-detection-dataset/](https://compvis.github.io/cuneiform-sign-detection-dataset/)
