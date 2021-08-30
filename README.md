@@ -29,6 +29,7 @@ run `check_installation.py` to check pytorch, mmcv, mmdet and mmocr installation
 
 Use [Black](https://black.readthedocs.io/en/stable/) codestyle and
 [PEP8 naming conventions](https://www.python.org/dev/peps/pep-0008/#naming-conventions).
+Use command `pyre` for type-checking.
 
 Use type hints in new code and add the to old code when making changes.
 
