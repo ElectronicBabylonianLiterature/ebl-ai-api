@@ -1,0 +1,10 @@
+#GPU needs different torch versions and mmcv-full may be need to be build/installed from git directly
+--find-links https://download.pytorch.org/whl/torch_stable.html
+torch==1.9.0+cpu
+torchvision==0.10.0+cpu
+mmcv-full==1.3.12
+mmdet==2.15.1
+mmocr @ git+https://github.com/open-mmlab/mmocr.git
+falcon==3.0.1
+pytest==6.2.4
+attrs==21.2.0
