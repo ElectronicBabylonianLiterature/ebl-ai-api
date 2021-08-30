@@ -29,12 +29,13 @@ run `check_installation.py` to check pytorch, mmcv, mmdet and mmocr installation
 
 Use [Black](https://black.readthedocs.io/en/stable/) codestyle and
 [PEP8 naming conventions](https://www.python.org/dev/peps/pep-0008/#naming-conventions).
-Use command `pyre` for type-checking.
+
 
 Use type hints in new code and add the to old code when making changes.
 
 ## Running the tests
-`pytest`
+Use command `pytest` to run all tests.
+Use command `pyre` for type-checking.
 
 ## Running the server
 `waitress-serve --port=8000 --call ebl.app:get_app`
