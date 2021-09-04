@@ -32,7 +32,8 @@ class Model:
     def _predict(self, image_path: str) -> List[List[float]]:
         """
         :param image_path: str
-        :return: List[List[float]] of vertices of polygons with last entry beeing the score (probability between 0 - 1)
+        :return: List[List[float]] of vertices of polygons with last
+        entry beeing the score (probability between 0 - 1)
         """
         return model_inference(self.model, image_path)["boundary_result"]
 
@@ -58,7 +59,8 @@ class Model:
     def predict(self, image: Union[np.ndarray, str]):
         """
         Should be able to do inference on image path and np.array
-        Currently there is a bug for python images: KeyError: 'LoadImageFromNdarray is not in the pipeline registry'
+        Currently there is a bug for python images:
+        KeyError: 'LoadImageFromNdarray is not in the pipeline registry'
         https://github.com/open-mmlab/mmdetection/issues
         that's why the image is saved to a file and then used for prediction
         """

@@ -1,9 +1,10 @@
+# flake8: noqa
 # Check Pytorch installation
 import torch, torchvision
 
 
 print(torch.__version__, torch.cuda.is_available())
-
+print(torchvision.__version__)
 
 
 # Check mmcv installation
@@ -20,8 +21,7 @@ print(get_compiler_version())
 import mmdet
 
 print(mmdet.__version__)
-#Check mmocr installation
+# Check mmocr installation
 import mmocr
 
 print(mmocr.__version__)
-

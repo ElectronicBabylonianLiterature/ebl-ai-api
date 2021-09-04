@@ -21,6 +21,7 @@ torchvision = {index = "pytorch",version = "==0.10.0"}
 mmcv-full = "*"
 mmdet = "*"
 mmocr = "*"
+waitress = "*"
 
 [dev-packages]
 flake8 = "*"
@@ -29,11 +30,11 @@ black="*"
 pyre-check="*"
 
 [scripts]
-test = "pytest --cov=ebl --cov-report term --cov-report xml"
-test-watch = "ptw --runner \"pytest --cov=ebl --cov-report term --cov-report xml\""
-start = "waitress-serve --port=8000 --call ebl_ai.app:get_app"
-lint = "flake8 ebl"
-format  = "black ebl"
+test = "pytest --cov=ebl_ai --cov-report term --cov-report xml"
+test-watch = "ptw --runner \"pytest --cov=ebl_ai --cov-report term --cov-report xml\""
+start = "waitress-serve --port=8001 --call ebl_ai.app:get_app"
+lint = "flake8 ebl_ai"
+format  = "black ebl_ai"
 type = "pyre check"
 
 [pipenv]

@@ -13,7 +13,7 @@ def create_app(model: Model):
 
 def get_app():
     model = Model(
-        configFile="../model/cpu/fcenet.py",
-        checkpoint="../model/cpu/fcenet_r50_fpn_1500e_icdar2015-d435c061.pth",
+        configFile="model/cpu/fcenet.py",
+        checkpoint="model/cpu/fcenet_r50_fpn_1500e_icdar2015-d435c061.pth",
     )
     return create_app(model)
