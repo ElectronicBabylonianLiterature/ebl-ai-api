@@ -34,7 +34,7 @@ jobs:
       
       - name: Code Style
         if: success() || steps.install.outcome == 'success'
-        run: pipenv run black ebl --check
+        run: pipenv run black ebl_ai --check
 
       - name: Type Check
         if: success() || steps.install.outcome == 'success'
