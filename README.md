@@ -14,10 +14,12 @@ Requirements:
 
 * Python 3.9
 
-pip3 install -r requirements.txt
+pip3 install pipenv
+
+pipenv install --dev
 
 CPU version. `fcenet_dcvn.py` needs GPU, so
-requirements have to be changed (Pytorch, mmcv-full and mmocr)
+requirements have to be changed (Pytorch)
 
 run `check_installation.py` to check pytorch, mmcv, mmdet and mmocr installation.
 
