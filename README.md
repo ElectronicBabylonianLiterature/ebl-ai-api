@@ -1,5 +1,5 @@
 # ebl-ai-api
-![Build Status](https://github.com/ElectronicBabylonianLiterature/ebl-ai-api/workflows/CI/badge.svg?branch=master)
+![Build Status](https://github.com/ElectronicBabylonianLiterature/ebl-ai-api/actions/workflows/CI/badge.svg?branch=master)
 ## Table of contents
 
 * [Setup](#setup)
