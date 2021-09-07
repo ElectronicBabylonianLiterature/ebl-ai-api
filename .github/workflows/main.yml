@@ -26,7 +26,7 @@ jobs:
         id: install
         run: |
           pip install pipenv
-          pipenv install --dev --deploy
+          pipenv install --dev --skip-lock
 
       - name: Lint
         if: success() || steps.install.outcome == 'success'
