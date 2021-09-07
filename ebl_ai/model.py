@@ -14,7 +14,7 @@ class BoundingBoxesPrediction:
     top_left_x: float
     top_left_y: float
     width: float
-    heigth: float
+    height: float
     probability: float
 
 
@@ -56,7 +56,7 @@ class Model:
             rectangles.append(_polygon_to_rectangle(polygon[:-1], polygon[-1]))
         return rectangles
 
-    def predict(self, image: Union[np.ndarray, str]):
+    def predict(self, image: Union[np.ndarray, str]) -> Sequence[BoundingBoxesPrediction]:
         """
         Should be able to do inference on an image file and np.array
         Currently there is a bug for python images:
