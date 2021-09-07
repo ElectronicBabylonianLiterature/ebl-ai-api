@@ -11,9 +11,7 @@ WORKDIR /usr/src/ebl-ai
 COPY Pipfile* ./
 RUN pipenv install --dev
 
-COPY ./ebl-ai ./ebl-ai
+COPY ./ebl_ai ./ebl_ai
 
-COPY ./docs ./docs
-RUN chmod -R a-wx ./docs
 
 CMD ["pipenv", "run", "start"]

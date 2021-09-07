@@ -1,27 +1,27 @@
 # flake8: noqa
 # Check Pytorch installation
-import torch, torchvision
+import torch
+import torchvision
 
-
-print(torch.__version__, torch.cuda.is_available())
-print(torchvision.__version__)
+print("Torch version: ", torch.__version__)
+print("Is Cude Available: ", torch.cuda.is_available())
+print("Torchvision version: ", torchvision.__version__)
 
 
 # Check mmcv installation
 import mmcv
 
-print(mmcv.__version__)
+print("MMCV version: ", mmcv.__version__)
 from mmcv.ops import get_compiling_cuda_version, get_compiler_version
 
-print(mmcv.__version__)
-print(get_compiling_cuda_version())
-print(get_compiler_version())
+print("MMCV Cuda compiling version: ", get_compiling_cuda_version())
+print("Compiler version: ", get_compiler_version())
 
 # Check MMDetection installation
 import mmdet
 
-print(mmdet.__version__)
+print("MMDET version: ", mmdet.__version__)
 # Check mmocr installation
 import mmocr
 
-print(mmocr.__version__)
+print("MMOCR version: ", mmocr.__version__)
