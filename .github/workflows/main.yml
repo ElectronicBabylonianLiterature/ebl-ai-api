@@ -22,11 +22,22 @@ jobs:
         with:
           python-version: '3.9'
 
+
+
+
+
       - name: Install
         id: install
         run: |
           pip install pipenv
           pipenv install --dev --skip-lock
+
+      - name: Download Model
+        id: download
+        run: |
+          cd model/cpu
+          gdown https://drive.google.com/uc?id=1M9gJ9NOR7e-sqcLoNxQ8KMFpw25CaW11
+          cd ../..
 
       - name: Lint
         if: success() || steps.install.outcome == 'success'

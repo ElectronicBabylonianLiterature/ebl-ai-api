@@ -22,6 +22,7 @@ mmcv-full = "*"
 mmdet = "*"
 mmocr = "*"
 waitress = "*"
+gdown = "*"
 
 [dev-packages]
 flake8 = "*"
