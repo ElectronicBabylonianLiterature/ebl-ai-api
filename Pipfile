@@ -26,6 +26,7 @@ waitress = "*"
 [dev-packages]
 flake8 = "*"
 pytest="*"
+pytest-cov = "*"
 black="*"
 pyre-check="*"
 
