@@ -56,6 +56,3 @@ jobs:
         env:
           CI: true
         run: pipenv run pytest
-          
-      - uses: paambaati/codeclimate-action@v2.7.4
-        if: success() || steps.unit_tests.outcome == 'failure'
