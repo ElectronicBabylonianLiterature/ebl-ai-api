@@ -58,7 +58,7 @@ class Model:
 
     def predict(self, image: Union[np.ndarray, str]):
         """
-        Should be able to do inference on image path and np.array
+        Should be able to do inference on an image file and np.array
         Currently there is a bug for python images:
         KeyError: 'LoadImageFromNdarray is not in the pipeline registry'
         https://github.com/open-mmlab/mmdetection/issues
