@@ -1,4 +1,5 @@
 # flake8: noqa
+# pyre-ignore-all-errors
 # Check Pytorch installation
 import torch
 import torchvision
