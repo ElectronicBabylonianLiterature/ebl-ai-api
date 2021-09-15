@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  api:
+    build: .
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./ebl_ai:/usr/src/ebl_ai/ebl_ai
+    command: ["pipenv", "run", "waitress-serve", "--port=8001", "--call", "ebl_ai.app:get_app"]
+    restart: on-failure

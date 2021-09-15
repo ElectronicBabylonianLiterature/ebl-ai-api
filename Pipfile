@@ -1,0 +1,43 @@
+[[source]]
+url = 'https://pypi.python.org/simple'
+verify_ssl = true
+name = 'pypi'
+
+[[source]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cpu/torch_stable.html"
+verify_ssl = false
+skip_lock = true
+
+
+[requires]
+python_version = '3.9'
+
+[packages]
+falcon="*"
+attrs="*"
+torch = {index = "pytorch",version = "==1.9.0"}
+torchvision = {index = "pytorch",version = "==0.10.0"}
+mmcv-full = "*"
+mmdet = "*"
+mmocr = "*"
+waitress = "*"
+gdown = "*"
+
+[dev-packages]
+flake8 = "*"
+pytest="*"
+pytest-cov = "*"
+black="*"
+pyre-check="*"
+
+[scripts]
+test = "pytest --cov=ebl_ai --cov-report term --cov-report xml"
+test-watch = "ptw --runner \"pytest --cov=ebl_ai --cov-report term --cov-report xml\""
+start = "waitress-serve --port=8001 --call ebl_ai.app:get_app"
+lint = "flake8 ebl_ai"
+format  = "black ebl_ai"
+type = "pyre check"
+
+[pipenv]
+allow_prereleases = true
