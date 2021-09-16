@@ -12,16 +12,23 @@
 
 Requirements:
 
+* sudo apt-get install ffmpeg libsm6 libxext6  -y  
+  (open-cv python dependencies)
+
+
 * Python 3.9
 
 `pip3 install pipenv`
 
 `pipenv install --dev`
 
-CPU version. `fcenet_dcvn.py` needs GPU, so
-requirements have to be changed (Pytorch)
+CPU version. 
+
+`fcenet_dcvn.py` needs GPU, so requirements have to be changed (Pytorch)
 
 run `check_installation.py` to check pytorch, mmcv, mmdet and mmocr installation.
+
+Current issue on running `check_installation.py` is: https://github.com/open-mmlab/mmdetection/issues/3271
 
 ### Model
 - Using [FCENet](https://github.com/open-mmlab/mmocr/blob/main/configs/textdet/fcenet/README.md) (CVPR'2021)
