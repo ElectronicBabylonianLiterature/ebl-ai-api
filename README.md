@@ -12,6 +12,10 @@
 
 Requirements:
 
+* sudo apt-get install ffmpeg libsm6 libxext6  -y  
+  (may be needed for open-cv python)
+
+
 * Python 3.9
 
 `pip3 install pipenv`

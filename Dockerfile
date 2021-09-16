@@ -13,7 +13,9 @@ EXPOSE 8001
 WORKDIR /usr/src/ebl-ai
 
 COPY Pipfile* ./
-RUN pipenv install --dev --skip-lock
+
+RUN MMCV_WITH_OPS=1 pipenv install --dev --skip-lock
+
 
 COPY ./ebl_ai ./ebl_ai
 COPY ./model ./model
