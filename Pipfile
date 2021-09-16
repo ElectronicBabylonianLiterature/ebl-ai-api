@@ -7,8 +7,6 @@ name = 'pypi'
 name = "pytorch"
 url = "https://download.pytorch.org/whl/cpu/torch_stable.html"
 verify_ssl = false
-skip_lock = true
-
 
 [requires]
 python_version = '3.9'
@@ -18,11 +16,13 @@ falcon="*"
 attrs="*"
 torch = {index = "pytorch",version = "==1.9.0"}
 torchvision = {index = "pytorch",version = "==0.10.0"}
-mmcv-full = "*"
+mmcv-full = {git = "https://github.com/open-mmlab/mmcv.git"}
 mmdet = "*"
 mmocr = "*"
 waitress = "*"
 gdown = "*"
+opencv-python="*"
+
 
 [dev-packages]
 flake8 = "*"

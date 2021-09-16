@@ -12,15 +12,11 @@
 
 Requirements:
 
-* sudo apt-get install ffmpeg libsm6 libxext6  -y  
-  (open-cv python dependencies)
-
-
 * Python 3.9
 
 `pip3 install pipenv`
 
-`pipenv install --dev`
+`MMCV_WITH_OPS=1 pipenv install --dev`
 
 CPU version. 
 
