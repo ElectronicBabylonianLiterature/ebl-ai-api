@@ -16,13 +16,12 @@ falcon="*"
 attrs="*"
 torch = {index = "pytorch",version = "==1.9.0"}
 torchvision = {index = "pytorch",version = "==0.10.0"}
-mmcv-full = {git = "https://github.com/open-mmlab/mmcv.git"}
 mmdet = "*"
 mmocr = "*"
 waitress = "*"
 gdown = "*"
 opencv-python="*"
-
+mmcv-full = {editable = true, git = "https://github.com/open-mmlab/mmcv.git"}
 
 [dev-packages]
 flake8 = "*"
@@ -30,6 +29,7 @@ pytest="*"
 pytest-cov = "*"
 black="*"
 pyre-check="*"
+ptw = "*"
 
 [scripts]
 test = "pytest --cov=ebl_ai --cov-report term --cov-report xml"
@@ -38,6 +38,3 @@ start = "waitress-serve --port=8001 --call ebl_ai.app:get_app"
 lint = "flake8 ebl_ai"
 format  = "black ebl_ai"
 type = "pyre check"
-
-[pipenv]
-allow_prereleases = true
