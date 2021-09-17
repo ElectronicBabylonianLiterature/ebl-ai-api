@@ -14,14 +14,14 @@ python_version = '3.9'
 [packages]
 falcon="*"
 attrs="*"
-torch = {index = "pytorch",version = "==1.9.0"}
-torchvision = {index = "pytorch",version = "==0.10.0"}
-mmdet = "*"
-mmocr = "*"
 waitress = "*"
 gdown = "*"
 opencv-python="*"
-mmcv-full = "*"
+torch = {index = "pytorch",version = "==1.9.0"}
+torchvision = {index = "pytorch",version = "==0.10.0"}
+mmcv-full = {git = "https://github.com/open-mmlab/mmcv.git"}
+mmdet = "*"
+mmocr = "*"
 
 [dev-packages]
 flake8 = "*"
