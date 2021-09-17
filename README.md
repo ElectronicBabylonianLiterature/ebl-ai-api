@@ -45,10 +45,10 @@ run `check_installation.py` to check pytorch, mmcv, mmdet and mmocr installation
 
 
 ## Running the tests
-Use command `black ebl_ai_api` to format code.
-Use command `flake8` to linting.
-Use command `pytest` to run all tests.
-Use command `pyre` for type-checking.
+- Use command `black ebl_ai_api` to format code.
+- Use command `flake8` to linting.
+- Use command `pytest` to run all tests.
+- Use command `pyre` for type-checking.
 
 ## Running the server
 `waitress-serve --port=8000 --call ebl.app:get_app`
