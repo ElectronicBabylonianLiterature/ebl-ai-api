@@ -1,5 +1,11 @@
 # ebl-ai-api
 ![Build Status](https://github.com/ElectronicBabylonianLiterature/ebl-ai-api/workflows/CI/badge.svg?branch=main)
+
+# Ebl Ai Api
+Server deploying a deep learning model for inference on detecting bounding boxes on cuneiform sign tablets
+For **training + data/weights** please refer to [cuneiform-sign-detection repo](https://github.com/ElectronicBabylonianLiterature/cuneiform-sign-detection)
+
+
 ## Table of contents
 
 * [Setup](#setup)
@@ -18,37 +24,36 @@ Requirements:
 
 * Python 3.9
 
+CPU-Version:
+
 `pip3 install pipenv`
 
-`MMCV_WITH_OPS=1 pipenv install --dev`
+`MMCV_OPS=1 pipenv install --dev --skip-lock`
 
-CPU version. 
+GPU-Version needs different Pytorch version in Pipfile.
 
-`fcenet_dcvn.py` needs GPU, so requirements have to be changed (Pytorch)
+On Error `ModuleNotFoundError: No module named 'mmcv._ext'` [https://github.com/open-mmlab/mmdetection/issues/3271](https://github.com/open-mmlab/mmdetection/issues/3271) you can 
+try cloning [mmcv](https://github.com/open-mmlab/mmcv) and running `MMCV_WITH_OPS=1 pipenv -v -e /mmcv/`
 
 run `check_installation.py` to check pytorch, mmcv, mmdet and mmocr installation.
 
-Current issue on running `check_installation.py` is: https://github.com/open-mmlab/mmdetection/issues/3271
-
 ### Model
 - Using [FCENet](https://github.com/open-mmlab/mmocr/blob/main/configs/textdet/fcenet/README.md) (CVPR'2021)
-- Training [Cuneiform Sign Detection](https://github.com/ElectronicBabylonianLiterature/cuneiform-sign-detection) (Checkpoints file linked here)
+- FCENet implementation: [MMOCR](https://github.com/open-mmlab/mmocr)
+- [FCENET with deconvolutions](https://mmocr.readthedocs.io/en/latest/textdet_models.html#id5) has slightly better performance but can't be used on cpu during inference
+- [FCENET without deconvolutions](https://mmocr.readthedocs.io/en/latest/textdet_models.html#id6) is used in our production server [ebl-ai-api](https://github.com/ElectronicBabylonianLiterature/ebl-ai-api)
 
-## Codestyle
-
-Use [Black](https://black.readthedocs.io/en/stable/) codestyle and
-[PEP8 naming conventions](https://www.python.org/dev/peps/pep-0008/#naming-conventions).
-
-
-Use type hints in new code and add the to old code when making changes.
 
 ## Running the tests
+Use command `black ebl_ai_api` to format code.
+Use command `flake8` to linting.
 Use command `pytest` to run all tests.
 Use command `pyre` for type-checking.
 
 ## Running the server
 `waitress-serve --port=8000 --call ebl.app:get_app`
 
+## Acknowledgements
 ## Acknowledgements
 - FCENET [https://arxiv.org/abs/2104.10442](https://arxiv.org/abs/2104.10442)
 - Using [https://github.com/open-mmlab/mmocr/blob/main/configs/textdet/fcenet/README.md](https://github.com/open-mmlab/mmocr/blob/main/configs/textdet/fcenet/README.md) (CVPR'2021)
