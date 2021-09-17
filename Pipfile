@@ -21,7 +21,7 @@ mmocr = "*"
 waitress = "*"
 gdown = "*"
 opencv-python="*"
-mmcv-full = {editable = true, git = "https://github.com/open-mmlab/mmcv.git"}
+mmcv-full = "*"
 
 [dev-packages]
 flake8 = "*"
