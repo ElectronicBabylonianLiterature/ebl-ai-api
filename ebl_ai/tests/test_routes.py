@@ -11,8 +11,8 @@ from ebl_ai.app import Model, create_app
 @pytest.fixture
 def model():
     return Model(
-        configFile="model/cpu/fcenet.py",
-        checkpoint="model/cpu/fcenet_r50_fpn_1500e_icdar2015-d435c061.pth",
+        configFile="model/gpu/fcenet_dcvn.py",
+        checkpoint="model/gpu/best_hmean-iou_hmean_epoch_200.pth",
     )
 
 
@@ -23,7 +23,7 @@ def client(model):
 
 
 def test_predictions_route(client):
-    img = Image.open("ebl_ai/tests/test_image.jpeg")
+    img = Image.open("ebl_ai/tests/test_image.jpg")
     buf = io.BytesIO()
     img.save(buf, format="JPEG")
     byte_im = buf.getvalue()
