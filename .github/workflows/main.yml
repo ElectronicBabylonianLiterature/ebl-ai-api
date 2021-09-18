@@ -23,14 +23,11 @@ jobs:
           python-version: '3.9'
 
 
-
-
-
       - name: Install
         id: install
         run: |
           pip install pipenv
-          pipenv install --dev --skip-lock
+          MMCV_WITH_OPS=1 pipenv install --dev --skip-lock
 
       - name: Download Model
         id: download

@@ -2,19 +2,17 @@ fourier_degree = 5
 model = dict(
     type='FCENet',
     backbone=dict(
-        type='ResNet',
+        type='mmdet.ResNet',
         depth=50,
         num_stages=4,
         out_indices=(1, 2, 3),
         frozen_stages=-1,
         norm_cfg=dict(type='BN', requires_grad=True),
-        norm_eval=True,
-        style='pytorch',
-        dcn=dict(type='DCNv2', deform_groups=2, fallback_on_stride=False),
         init_cfg=dict(type='Pretrained', checkpoint='torchvision://resnet50'),
-        stage_with_dcn=(False, True, True, True)),
+        norm_eval=False,
+        style='pytorch'),
     neck=dict(
-        type='FPN',
+        type='mmdet.FPN',
         in_channels=[512, 1024, 2048],
         out_channels=256,
         add_extra_convs='on_output',
@@ -26,6 +24,9 @@ model = dict(
         in_channels=256,
         scales=(8, 16, 32),
         loss=dict(type='FCELoss'),
+        alpha=1.2,
+        beta=1.0,
+        text_repr_type='quad',
         fourier_degree=fourier_degree,
     ))
 
@@ -33,13 +34,10 @@ train_cfg = None
 test_cfg = None
 
 dataset_type = 'IcdarDataset'
-data_root = '../data'
+data_root = 'data/icdar2015/'
 
-#rgb complete-contours
 img_norm_cfg = dict(
-    mean=[88.11352083995276, 66.24563083415241, 51.00115906032838],
-    std=[62.26740688265691, 51.17549077122324, 43.536414909602364], to_rgb=True
-)
+    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 
 train_pipeline = [
     dict(type='LoadImageFromFile', color_type='color_ignore_orientation'),
@@ -73,7 +71,7 @@ train_pipeline = [
     dict(
         type='FCENetTargets',
         fourier_degree=fourier_degree,
-        level_proportion_range=((0, 0.25), (0.2, 0.65), (0.55, 1.0))),
+        level_proportion_range=((0, 0.4), (0.3, 0.7), (0.6, 1.0))),
     dict(
         type='CustomFormatBundle',
         keys=['p3_maps', 'p4_maps', 'p5_maps'],
@@ -84,7 +82,7 @@ test_pipeline = [
     dict(type='LoadImageFromFile', color_type='color_ignore_orientation'),
     dict(
         type='MultiScaleFlipAug',
-        img_scale=(1080, 736),
+        img_scale=(2260, 2260),
         flip=False,
         transforms=[
             dict(type='Resize', img_scale=(1280, 800), keep_ratio=True),
@@ -96,9 +94,9 @@ test_pipeline = [
 ]
 data = dict(
     samples_per_gpu=8,
-    workers_per_gpu=4,
-    val_dataloader=dict(samples_per_gpu=12),
-    test_dataloader=dict(samples_per_gpu=12),
+    workers_per_gpu=2,
+    val_dataloader=dict(samples_per_gpu=1),
+    test_dataloader=dict(samples_per_gpu=1),
     train=dict(
         type=dataset_type,
         ann_file=data_root + '/instances_training.json',
@@ -114,26 +112,25 @@ data = dict(
         ann_file=data_root + '/instances_test.json',
         img_prefix=data_root + '/imgs',
         pipeline=test_pipeline))
-evaluation = dict(interval=10, metric=['hmean-iou'], save_best='hmean-iou:hmean', rule="greater")
+evaluation = dict(interval=5, metric='hmean-iou')
 
 # optimizer
+optimizer = dict(type='SGD', lr=1e-3, momentum=0.90, weight_decay=5e-4)
+optimizer_config = dict(grad_clip=None)
+lr_config = dict(policy='poly', power=0.9, min_lr=1e-7, by_epoch=True)
+total_epochs = 1500
 
-optimizer = dict(type='Adadelta', lr=0.00001)
-optimizer_config = dict(grad_clip=dict(max_norm=0.5))
-lr_config = dict(policy='poly', power=0.9, min_lr=1e-07, by_epoch=True)
-total_epochs = 250
-
-checkpoint_config = dict(interval=25)
+checkpoint_config = dict(interval=5)
 # yapf:disable
 log_config = dict(
-        interval=10,
-        hooks=[
-            dict(type='TensorboardLoggerHook'),
-            dict(type='TextLoggerHook')
-        ])
+    interval=20,
+    hooks=[
+        dict(type='TextLoggerHook')
+
+    ])
 # yapf:enable
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 load_from = None
 resume_from = None
-workflow = [('train', 1), ('val', 1)]
+workflow = [('train', 1)]

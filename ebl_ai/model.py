@@ -77,3 +77,14 @@ class Model:
                 boundary_results = self._predict(file.name)
 
         return self._polygons_with_probabilites_to_rectangle(boundary_results)
+
+    def show_result(self, image_path: str, out_file: str, is_show=True) -> None:
+        predictions = self._predict(image_path)
+        self.model.show_result(
+            image_path,
+            {"boundary_result": predictions},
+            out_file=out_file,
+            show=is_show,
+            thickness=2,
+            bbox_color="red",
+        )
