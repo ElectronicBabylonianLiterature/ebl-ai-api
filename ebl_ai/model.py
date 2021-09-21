@@ -1,4 +1,6 @@
-from mmocr.datasets import build_dataset  # noqa: F401 needed else there is key in registry error
+from mmocr.datasets import (
+    build_dataset,
+)  # noqa: F401 needed else there is key in registry error
 import tempfile
 from io import BytesIO
 from typing import Union, List, Sequence
