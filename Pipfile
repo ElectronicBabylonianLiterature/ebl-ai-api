@@ -19,9 +19,10 @@ gdown = "*"
 opencv-python="*"
 torch = {index = "pytorch",version = "==1.9.0"}
 torchvision = {index = "pytorch",version = "==0.10.0"}
-mmcv-full = {git = "https://github.com/open-mmlab/mmcv.git"}
+mmcv-full = {ref = "b4bfeb53c57f2c843cb5015f9c0a2d1689dba9c4", git = "https://github.com/open-mmlab/mmcv.git"}
 mmdet = "*"
-mmocr = "*"
+mmocr = {ref= "3d2a91955efe134a0a33ca00d0d45632813b6b46", git = "https://github.com/yCobanoglu/mmocr.git"}
+
 
 [dev-packages]
 flake8 = "*"

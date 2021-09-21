@@ -1,3 +1,4 @@
+from mmocr.datasets import build_dataset  # needed else there is key in registry error
 import tempfile
 from io import BytesIO
 from typing import Union, List, Sequence
@@ -6,7 +7,8 @@ import attr
 import numpy as np
 from PIL import Image
 from mmcv import Config
-from mmocr.apis import init_detector, model_inference
+from mmdet.apis import init_detector
+from mmocr.apis import model_inference
 
 
 @attr.s(auto_attribs=True, frozen=True)
