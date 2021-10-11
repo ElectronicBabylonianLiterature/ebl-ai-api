@@ -27,7 +27,7 @@ jobs:
         id: install
         run: |
           pip install pipenv
-          MMCV_WITH_OPS=1 pipenv install --dev --skip-lock
+          pipenv install --dev --skip-lock
 
       - name: Download Model
         id: download
