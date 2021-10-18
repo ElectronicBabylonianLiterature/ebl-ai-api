@@ -8,6 +8,14 @@ name = "pytorch"
 url = "https://download.pytorch.org/whl/cpu/torch_stable.html"
 verify_ssl = false
 
+[[source]]
+name = "mmcv"
+url = "https://download.openmmlab.com/mmcv/dist/cpu/torch1.9.0/index.html"
+verify_ssl = false
+
+
+
+
 
 [requires]
 python_version = '3.8'
@@ -20,7 +28,7 @@ gdown = "*"
 opencv-python="*"
 torch = {index = "pytorch",version = "==1.9.0"}
 torchvision = {index = "pytorch",version = "==0.10.0"}
-mmcv-full = "*"
+mmcv-full = {index= "mmcv"}
 mmdet = "*"
 mmocr = "*"
 
