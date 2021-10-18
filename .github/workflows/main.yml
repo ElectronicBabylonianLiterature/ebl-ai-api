@@ -32,8 +32,8 @@ jobs:
       - name: Download Model
         id: download
         run: |
-          cd model/cpu
-          pipenv run gdown https://drive.google.com/uc?id=1T6CfksQYmt-4279Wwac-wZlBRLgvrMNo
+          cd model/gpu
+          pipenv run gdown https://drive.google.com/uc?id=1xetVdqEBEuGni_w4ga8Bbmgs09oPqEmc
           cd ../..
 
       - name: Lint

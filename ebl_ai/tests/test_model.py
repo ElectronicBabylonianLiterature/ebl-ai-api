@@ -5,7 +5,7 @@ from ebl_ai.app import Model
 from ebl_ai.model import BoundingBoxesPrediction
 
 CONFIG_FILE = "model/gpu/fcenet_dcvn.py"
-CHECKPOINT = "model/gpu/best_hmean-iou_hmean_epoch_200.pth"
+CHECKPOINT = "model/gpu/best_hmean-iou-hmean_epoch_200.pth"
 
 
 TEST_IMAGE_PATH = "ebl_ai/tests/test_image.jpg"
