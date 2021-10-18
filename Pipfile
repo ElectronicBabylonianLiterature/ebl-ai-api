@@ -20,7 +20,7 @@ gdown = "*"
 opencv-python="*"
 torch = {index = "pytorch",version = "==1.9.0"}
 torchvision = {index = "pytorch",version = "==0.10.0"}
-mmcv = "*"
+mmcv-full = "*"
 mmdet = "*"
 mmocr = "*"
 

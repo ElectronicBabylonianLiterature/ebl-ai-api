@@ -33,7 +33,7 @@ jobs:
         id: download
         run: |
           cd model/cpu
-          pipenv run gdown https://drive.google.com/uc?id=1M9gJ9NOR7e-sqcLoNxQ8KMFpw25CaW11
+          pipenv run gdown https://drive.google.com/uc?id=1T6CfksQYmt-4279Wwac-wZlBRLgvrMNo
           cd ../..
 
       - name: Lint
