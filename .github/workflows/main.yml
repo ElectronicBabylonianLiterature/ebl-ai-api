@@ -31,7 +31,7 @@ jobs:
       - name: Download Model
         id: download
         run: |
-          cd model/cpu
+          cd model/gpu
           gdown https://drive.google.com/uc?id=1xetVdqEBEuGni_w4ga8Bbmgs09oPqEmc
           cd ../..
 
