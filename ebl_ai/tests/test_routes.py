@@ -11,7 +11,7 @@ from ebl_ai.app import Model, create_app
 @pytest.fixture
 def model():
     return Model(
-        configFile="model/cpu/fcenet_dcvn.py",
+        configFile="model/cpu/fcenet.py",
         checkpoint="model/gpu/best_hmean_200epochs.pth",
     )
 
