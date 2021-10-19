@@ -20,14 +20,13 @@ jobs:
 
       - uses: actions/setup-python@v2.2.2
         with:
-          python-version: '3.8'
+          python-version: '3.9'
 
 
       - name: Install
         id: install
         run: |
-          pip install pipenv
-          pipenv install --dev --skip-lock
+          pip3 install -r requirements
 
       - name: Download Model
         id: download
@@ -38,18 +37,18 @@ jobs:
 
       - name: Lint
         if: success() || steps.install.outcome == 'success'
-        run: pipenv run lint
+        run: flake8 ebl_ai
       
       - name: Code Style
         if: success() || steps.install.outcome == 'success'
-        run: pipenv run black ebl_ai --check
+        run: black ebl_ai --check
 
       - name: Type Check
         if: success() || steps.install.outcome == 'success'
-        run: pipenv run pyre check
+        run: pyre check
 
       - name: Unit Tests
         id: unit_tests
         env:
           CI: true
-        run: pipenv run pytest
+        run: pytest
