@@ -1,9 +1,10 @@
 {
   "source_directories": [
-    {
-      "import_root": ".",
-      "source": "ebl_ai"
-    }
+    "."
   ],
-  "taint_models_path": "../.venv/lib"
+  "taint_models_path": ".venv/lib/pyre_check/taint/",
+  "typeshed": ".venv/lib/pyre_check/typeshed/",
+  "ignore_all_errors": [
+    ".venv"
+  ]
 }
