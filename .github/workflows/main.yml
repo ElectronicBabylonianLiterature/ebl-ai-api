@@ -43,6 +43,10 @@ jobs:
         if: success() || steps.install.outcome == 'success'
         run: black ebl_ai --check
 
+      - name: Type Check
+        if: success() || steps.install.outcome == 'success'
+        run: pyre check
+
       - name: Unit Tests
         id: unit_tests
         env:
