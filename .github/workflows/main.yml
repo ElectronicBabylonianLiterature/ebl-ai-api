@@ -31,9 +31,9 @@ jobs:
       - name: Download Model
         id: download
         run: |
-          cd model/gpu
+          cd model
           gdown https://drive.google.com/uc?id=1om5g6IPxFmaigU4uEvZROmP-F6vJwbHb
-          cd ../..
+          cd ..
 
       - name: Lint
         if: success() || steps.install.outcome == 'success'
