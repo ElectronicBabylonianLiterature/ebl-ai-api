@@ -5,5 +5,5 @@
       "source": "ebl_ai"
     }
   ],
-  "taint_models_path": "/home/yunus/PycharmProjects/ebl-ai-api/.venv/lib"
+  "taint_models_path": "../.venv/lib"
 }

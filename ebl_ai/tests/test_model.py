@@ -4,8 +4,8 @@ from PIL import Image
 from ebl_ai.app import Model
 from ebl_ai.model import BoundingBoxesPrediction
 
-CONFIG_FILE = "model/cpu/fcenet.py"
-CHECKPOINT = "model/gpu/best_hmean_200epochs.pth"
+CONFIG_FILE = "model/fcenet_dcvn.py"
+CHECKPOINT = "model/gpu/checkpoint.pth"
 
 
 TEST_IMAGE_PATH = "ebl_ai/tests/test_image.jpg"

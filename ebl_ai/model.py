@@ -30,11 +30,6 @@ class Model:
             ].pipeline
 
     def _predict(self, image_path: str) -> List[List[float]]:
-        """
-        :param image_path: str
-        :return: List[List[float]] of vertices of polygons with last
-        entry beeing the score (probability between 0 - 1)
-        """
         return model_inference(self.model, image_path)["boundary_result"]
 
     def _polygons_with_probabilites_to_rectangle(
@@ -59,16 +54,15 @@ class Model:
     def predict(
         self, image: Union[np.ndarray, str]
     ) -> Sequence[BoundingBoxesPrediction]:
-        """
-        Should be able to do inference on an image file and np.array
-        Currently there is a bug for python images:
-        KeyError: 'LoadImageFromNdarray is not in the pipeline registry'
-        https://github.com/open-mmlab/mmdetection/issues
-        that's why the image is saved to a file and then used for prediction
-        """
         if isinstance(image, str):
             boundary_results = self._predict(image)
         else:
+            """
+           Currently there is a bug for python images:
+           KeyError: 'LoadImageFromNdarray is not in the pipeline registry'
+           https://github.com/open-mmlab/mmdetection/issues
+           that's why the image is saved to a file and then used for prediction
+           """
             image = Image.fromarray(image)
             with tempfile.NamedTemporaryFile(suffix="jpeg") as file:
                 buf = BytesIO()

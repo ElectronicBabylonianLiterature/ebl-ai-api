@@ -24,18 +24,9 @@ Requirements:
 
 * Python 3.9
 
-CPU-Version:
+pip3 install -r requirements
 
-`pip3 install pipenv`
-
-`MMCV_OPS=1 pipenv install --dev --skip-lock`
-
-GPU-Version needs different Pytorch version in Pipfile.
-
-On Error `ModuleNotFoundError: No module named 'mmcv._ext'` [https://github.com/open-mmlab/mmdetection/issues/3271](https://github.com/open-mmlab/mmdetection/issues/3271) you can 
-try cloning [mmcv](https://github.com/open-mmlab/mmcv) and running `MMCV_WITH_OPS=1 pipenv -v -e /mmcv/`
-
-run `check_installation.py` to check pytorch, mmcv, mmdet and mmocr installation.
+Run `check_installation.py` to check pytorch, mmcv, mmdet and mmocr installation.
 
 ### Model
 - Using [FCENet](https://github.com/open-mmlab/mmocr/blob/main/configs/textdet/fcenet/README.md) (CVPR'2021)
