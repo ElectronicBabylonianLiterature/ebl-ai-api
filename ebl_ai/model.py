@@ -58,11 +58,11 @@ class Model:
             boundary_results = self._predict(image)
         else:
             """
-           Currently there is a bug for python images:
-           KeyError: 'LoadImageFromNdarray is not in the pipeline registry'
-           https://github.com/open-mmlab/mmdetection/issues
-           that's why the image is saved to a file and then used for prediction
-           """
+            Currently there is a bug for python images:
+            KeyError: 'LoadImageFromNdarray is not in the pipeline registry'
+            https://github.com/open-mmlab/mmdetection/issues
+            that's why the image is saved to a file and then used for prediction
+            """
             image = Image.fromarray(image)
             with tempfile.NamedTemporaryFile(suffix="jpeg") as file:
                 buf = BytesIO()
