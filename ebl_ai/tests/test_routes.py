@@ -12,7 +12,7 @@ from ebl_ai.app import Model, create_app
 def model():
     return Model(
         configFile="model/fcenet_no_dcvn.py",
-        checkpoint="model/gpu/checkpoint.pth",
+        checkpoint="model/checkpoint.pth",
     )
 
 

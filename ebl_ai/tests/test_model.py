@@ -1,5 +1,7 @@
 import numpy as np
 from PIL import Image
+from mmcv import Config
+from mmocr.apis import init_detector, model_inference
 
 from ebl_ai.app import Model
 from ebl_ai.model import BoundingBoxesPrediction
