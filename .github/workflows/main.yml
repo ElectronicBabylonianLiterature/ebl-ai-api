@@ -32,7 +32,7 @@ jobs:
         id: download
         run: |
           cd model/gpu
-          gdown https://drive.google.com/uc?id=1xetVdqEBEuGni_w4ga8Bbmgs09oPqEmc
+          gdown https://drive.google.com/uc?id=1om5g6IPxFmaigU4uEvZROmP-F6vJwbHb
           cd ../..
 
       - name: Lint
