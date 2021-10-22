@@ -24,6 +24,10 @@ Requirements:
 
 * Python 3.9
 
+python3 -m venv ./.venv
+
+pyre-configuration specifies paths specifically to **.venv** directory
+
 pip3 install -r requirements
 
 Run `check_installation.py` to check pytorch, mmcv, mmdet and mmocr installation.
@@ -31,15 +35,16 @@ Run `check_installation.py` to check pytorch, mmcv, mmdet and mmocr installation
 ### Model
 - Using [FCENet](https://github.com/open-mmlab/mmocr/blob/main/configs/textdet/fcenet/README.md) (CVPR'2021)
 - FCENet implementation: [MMOCR](https://github.com/open-mmlab/mmocr)
-- [FCENET with deconvolutions](https://mmocr.readthedocs.io/en/latest/textdet_models.html#id5) has slightly better performance but can't be used on cpu during inference
-- [FCENET without deconvolutions](https://mmocr.readthedocs.io/en/latest/textdet_models.html#id6) is used in our production server [ebl-ai-api](https://github.com/ElectronicBabylonianLiterature/ebl-ai-api)
+- [FCENET with deconvolutions](https://mmocr.readthedocs.io/en/latest/textdet_models.html#id5) has slightly better performance.
+- [FCENET without deconvolutions](https://mmocr.readthedocs.io/en/latest/textdet_models.html#id6).
+- We use FCENET without deconvolutions and with Resnet-18 as Backbone (specified in ./model directory)
 
 
 ## Running the tests
 - Use command `black ebl_ai_api` to format code.
-- Use command `flake8` to linting.
+- Use command `flake8` for linting.
 - Use command `pytest` to run all tests.
-- Use command `pyre` for type-checking.
+- Use command `pyre check` for type-checking.
 
 ## Running the server
 `waitress-serve --port=8000 --call ebl.app:get_app`
