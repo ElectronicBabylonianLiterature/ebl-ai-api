@@ -57,7 +57,7 @@ to check pytorch, mmcv, mmdet and mmocr installation.
 - Use command `pyre check` for type-checking.
 
 ## Running the server
-`waitress-serve --port=8000 --call ebl.app:get_app`
+`waitress-serve --port=8001 --call ebl.app:get_app`
 
 ## Acknowledgements
 ## Acknowledgements
