@@ -13,7 +13,7 @@ def create_app(model: Model):
 
 def get_app():
     model = Model(
-        configFile="model/fcenet_dcvn.py",
-        checkpoint="model/best_hmean-iou_hmean_epoch_200.pth",
+        configFile="model/fcenet_no_dcvn.py",
+        checkpoint="model/checkpoint.pth",
     )
     return create_app(model)
