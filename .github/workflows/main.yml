@@ -33,24 +33,33 @@ jobs:
       - name: Download Model
         id: download
         run: |
+          source .venv/bin/activate
           cd model
           gdown https://drive.google.com/uc?id=1om5g6IPxFmaigU4uEvZROmP-F6vJwbHb
           cd ..
 
       - name: Lint
         if: success() || steps.install.outcome == 'success'
-        run: flake8 ebl_ai
+        run: |
+          source .venv/bin/activate
+          flake8 ebl_ai
       
       - name: Code Style
         if: success() || steps.install.outcome == 'success'
-        run: black ebl_ai --check
+        run: |
+          source .venv/bin/activate
+          black ebl_ai --check
 
       - name: Type Check
         if: success() || steps.install.outcome == 'success'
-        run: pyre check
+        run: |
+          source .venv/bin/activate
+          pyre check
 
       - name: Unit Tests
         id: unit_tests
         env:
           CI: true
-        run: pytest
+        run: |
+          source .venv/bin/activate
+          pytest
