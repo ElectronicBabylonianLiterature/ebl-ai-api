@@ -19,19 +19,28 @@ For **training + data/weights** please refer to [cuneiform-sign-detection repo](
 
 Requirements:
 
-* sudo apt-get install ffmpeg libsm6 libxext6  -y  
+* ```console
+  sudo apt-get install ffmpeg libsm6 libxext6  -y  
   (may be needed for open-cv python)
+  ```
 
 
 * Python 3.9
 
+```console
 python3 -m venv ./.venv
+```
 
 pyre-configuration specifies paths specifically to **.venv** directory
-
+```console
 pip3 install -r requirements
+```
 
-Run `check_installation.py` to check pytorch, mmcv, mmdet and mmocr installation.
+Run 
+```console 
+python3 ebl_ai/check_installation.py
+``` 
+to check pytorch, mmcv, mmdet and mmocr installation.
 
 ### Model
 - Using [FCENet](https://github.com/open-mmlab/mmocr/blob/main/configs/textdet/fcenet/README.md) (CVPR'2021)
