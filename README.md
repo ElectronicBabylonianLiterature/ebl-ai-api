@@ -1,5 +1,6 @@
 # ebl-ai-api
 ![Build Status](https://github.com/ElectronicBabylonianLiterature/ebl-ai-api/workflows/CI/badge.svg?branch=main)
+[![Maintainability](https://api.codeclimate.com/v1/badges/fd51b3cb4ea06f4e212f/maintainability)](https://codeclimate.com/github/ElectronicBabylonianLiterature/ebl-ai-api/maintainability)
 
 # Ebl Ai Api
 Server deploying a deep learning model for inference on detecting bounding boxes on cuneiform sign tablets
