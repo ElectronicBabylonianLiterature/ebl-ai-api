@@ -14,6 +14,6 @@ def create_app(model: Model):
 def get_app():
     model = Model(
         configFile="model/fcenet_no_dcvn.py",
-        checkpoint="model/checkpoint.pth",
+        checkpoint="model/checkpoint1.pth",
     )
     return create_app(model)
