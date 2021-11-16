@@ -60,7 +60,6 @@ to check pytorch, mmcv, mmdet and mmocr installation.
 `waitress-serve --port=8001 --call ebl.app:get_app`
 
 ## Acknowledgements
-## Acknowledgements
 - FCENET [https://arxiv.org/abs/2104.10442](https://arxiv.org/abs/2104.10442)
 - Using [https://github.com/open-mmlab/mmocr/blob/main/configs/textdet/fcenet/README.md](https://github.com/open-mmlab/mmocr/blob/main/configs/textdet/fcenet/README.md) (CVPR'2021)
 - MMOCR [https://github.com/open-mmlab/mmocr](https://github.com/open-mmlab/mmocr)
