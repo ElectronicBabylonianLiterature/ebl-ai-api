@@ -47,7 +47,7 @@ to check pytorch, mmcv, mmdet and mmocr installation.
 - FCENet implementation: [MMOCR](https://github.com/open-mmlab/mmocr)
 - [FCENET with deconvolutions](https://mmocr.readthedocs.io/en/latest/textdet_models.html#id5) has slightly better performance.
 - [FCENET without deconvolutions](https://mmocr.readthedocs.io/en/latest/textdet_models.html#id6).
-- We use FCENET without deconvolutions and with Resnet-18 as Backbone (specified in `./model` directory)
+- We use FCENET without deconvolutions and with Resnet-18 as Backbone (checkpoint and config specified in `./model` directory)
 
 
 ## Running the tests
