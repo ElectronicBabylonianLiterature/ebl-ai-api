@@ -4,7 +4,7 @@
 
 # Ebl Ai Api
 Server deploying a deep learning model for inference on detecting bounding boxes on cuneiform sign tablets
-For **training + data/weights** please refer to [cuneiform-sign-detection repo](https://github.com/ElectronicBabylonianLiterature/cuneiform-sign-detection)
+For **training** please refer to [cuneiform-sign-detection repo](https://github.com/ElectronicBabylonianLiterature/cuneiform-sign-detection)
 
 
 ## Table of contents
