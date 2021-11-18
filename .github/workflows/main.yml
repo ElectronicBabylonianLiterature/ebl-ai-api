@@ -70,8 +70,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          lfs: 'true'
-      - run: git lfs pull
+          lfs: 'false'
+      #- run: git lfs pull
 
       - uses: docker/setup-buildx-action@v1
 
