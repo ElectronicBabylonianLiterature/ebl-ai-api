@@ -33,8 +33,8 @@ test_cfg = None
 dataset_type = 'IcdarDataset'
 data_root = './data'
 img_norm_cfg = dict(
-    mean=(93.74563408650725, 72.73097058157583, 57.578964634542544),
-    std=(63.56271455429814, 52.89510529933301, 45.35473046012471),
+    mean=(93.36797308510793, 72.78306456083598, 57.781865103161024),
+    std=(64.34378003244571, 53.48020358622378, 45.65901066327346),
     to_rgb=True)
 train_pipeline = [
     dict(type='LoadImageFromFile'),
@@ -200,15 +200,15 @@ data = dict(
                 ])
         ]))
 evaluation = dict(
-    interval=20,
+    interval=1600,
     metric=['hmean-iou'],
     save_best='hmean-iou:hmean',
     rule='greater')
 optimizer = dict(type='Adam', lr=0.001)
 optimizer_config = dict(grad_clip=None)
-lr_config = dict(policy='poly', power=0.9)
-total_epochs = 750
-checkpoint_config = dict(interval=25)
+lr_config = dict(policy='poly', power=0.9, min_lr=1e-07, by_epoch=True)
+total_epochs = 1500
+checkpoint_config = dict(interval=50)
 log_config = dict(
     interval=10,
     hooks=[dict(type='TensorboardLoggerHook'),
@@ -217,6 +217,6 @@ dist_params = dict(backend='nccl')
 log_level = 'INFO'
 load_from = './checkpoints/fcenet_cpu.pth'
 resume_from = None
-workflow = [('train', 10), ('val', 1)]
-work_dir = 'logs/fcenet_no_dcvn/2'
+workflow = [('train', 1)]
+work_dir = 'logs/fcenet_no_dcvn/15'
 gpu_ids = range(0, 1)

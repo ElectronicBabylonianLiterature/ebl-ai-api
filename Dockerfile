@@ -16,4 +16,5 @@ RUN pip3 install -r requirements.txt
 
 COPY ./ebl_ai ./ebl_ai
 COPY ./model ./model
+RUN cd model &&  gdown https://drive.google.com/uc?id=1Z10LPzbxdCCrdxH_BruBJns5VkH3Pp7H
 CMD ["/bin/bash", "-c", "waitress-serve --port=8001 --call ebl_ai.app:get_app"]
