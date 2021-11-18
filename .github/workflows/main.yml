@@ -33,6 +33,7 @@ jobs:
       - name: Download Model
         id: download
         run: |
+          source .venv/bin/activate
           cd model
           gdown https://drive.google.com/uc?id=1Z10LPzbxdCCrdxH_BruBJns5VkH3Pp7H
           cd ..
