@@ -30,6 +30,13 @@ jobs:
           source .venv/bin/activate
           pip3 install -r requirements.txt
 
+      - name: Download Model
+        id: download
+        run: |
+          cd model
+          gdown https://drive.google.com/uc?id=1Z10LPzbxdCCrdxH_BruBJns5VkH3Pp7H
+          cd ..
+
       - name: Lint
         if: success() || steps.install.outcome == 'success'
         run: |
