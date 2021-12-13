@@ -1,0 +1,27 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+torch = "==1.9.0+cpu"
+torchvision = "==0.10.0"
+falcon = "*"
+attrs = "*"
+waitress = "*"
+gdown = "*"
+opencv-python = "*"
+mmcv-full = "*"
+mmdet = "*"
+mmocr = "*"
+flake8 = "*"
+pytest = "*"
+pytest-cov = "*"
+black = "*"
+pyre-check = "*"
+ptw = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7"
