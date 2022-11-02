@@ -5,6 +5,7 @@ from typing import Union, List, Sequence
 import attr
 import numpy as np
 from PIL import Image
+Image.MAX_IMAGE_PIXELS = None
 from mmcv import Config
 from mmocr.apis import init_detector, model_inference
 
