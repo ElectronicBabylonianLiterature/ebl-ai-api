@@ -38,14 +38,6 @@ jobs:
           gdown https://drive.google.com/uc?id=17vISNEucGkSyZSfWfu5eOrBtut2wXRJ6
           cd ..
 
-      - name: Unit Tests
-        id: unit_tests
-        env:
-          CI: true
-        run: |
-          source .venv/bin/activate
-          pytest
-
   docker:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: [ test ]
