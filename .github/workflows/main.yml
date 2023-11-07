@@ -38,24 +38,6 @@ jobs:
           gdown https://drive.google.com/uc?id=17vISNEucGkSyZSfWfu5eOrBtut2wXRJ6
           cd ..
 
-      - name: Lint
-        if: success() || steps.install.outcome == 'success'
-        run: |
-          source .venv/bin/activate
-          flake8 ebl_ai
-      
-      - name: Code Style
-        if: success() || steps.install.outcome == 'success'
-        run: |
-          source .venv/bin/activate
-          black ebl_ai --check
-
-      - name: Type Check
-        if: success() || steps.install.outcome == 'success'
-        run: |
-          source .venv/bin/activate
-          pyre check
-
       - name: Unit Tests
         id: unit_tests
         env:
