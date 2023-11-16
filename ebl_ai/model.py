@@ -23,7 +23,6 @@ class Model:
     def __init__(self, configFile: str, checkpoint: str):
         self.model = MMOCRInferencer(det=configFile, det_weights=checkpoint)
 
-
     def _predict(self, image_path: str) -> List[List[float]]:
         x = self.model(image_path)["predictions"]
         result = []
@@ -72,4 +71,3 @@ class Model:
                 boundary_results = self._predict(file.name)
 
         return self._polygons_with_probabilites_to_rectangle(boundary_results)
-

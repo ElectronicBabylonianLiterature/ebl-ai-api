@@ -4,6 +4,7 @@ import attr
 import falcon
 import numpy as np
 from PIL import Image
+
 Image.MAX_IMAGE_PIXELS = None
 
 from ebl_ai.model import Model
