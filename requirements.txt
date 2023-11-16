@@ -1,15 +1,14 @@
---find-links https://download.pytorch.org/whl/torch_stable.html
-torch==1.9.0+cpu
-torchvision==0.10.0
+--find-links --index-url https://download.pytorch.org/whl/cpu
+torch==2.0.1
+torchvision==0.15.2
 falcon
 attrs
 waitress
 gdown
 opencv-python
---find-links https://download.openmmlab.com/mmcv/dist/cpu/torch1.9.0/index.html
-mmcv-full 
-mmdet 
-mmocr 
+mmdet==3.0.0rc6
+mmocr
+mmcv==2.0.1
 flake8 
 pytest
 pytest-cov 

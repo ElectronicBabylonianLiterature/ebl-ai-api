@@ -116,3 +116,7 @@ docker-entrypoint-initdb.d/
 # Run backend locally
 run_backend.sh
 
+
+# pth
+model/checkpoint.pth
+

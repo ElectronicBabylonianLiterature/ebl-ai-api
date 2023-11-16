@@ -1,5 +1,4 @@
 import numpy as np
-import pytest
 from PIL import Image
 
 from ebl_ai.app import Model
@@ -12,7 +11,7 @@ CHECKPOINT = "model/checkpoint.pth"
 TEST_IMAGE_PATH = "ebl_ai/tests/test_image.jpg"
 
 
-@pytest.mark.skip(reason="Takes very long")
+#@pytest.mark.skip(reason="Takes very long")
 def test_model_predictions():
     model = Model(configFile=CONFIG_FILE, checkpoint=CHECKPOINT)
 

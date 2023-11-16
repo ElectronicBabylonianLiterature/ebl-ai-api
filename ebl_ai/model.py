@@ -5,9 +5,9 @@ from typing import Union, List, Sequence
 import attr
 import numpy as np
 from PIL import Image
+from mmocr.apis import MMOCRInferencer
+
 Image.MAX_IMAGE_PIXELS = None
-from mmcv import Config
-from mmocr.apis import init_detector, model_inference
 
 
 @attr.s(auto_attribs=True, frozen=True)
@@ -21,17 +21,18 @@ class BoundingBoxesPrediction:
 
 class Model:
     def __init__(self, configFile: str, checkpoint: str):
-        self.model = init_detector(
-            Config.fromfile(configFile), checkpoint=checkpoint, device="cpu"
-        )
+        self.model = MMOCRInferencer(det=configFile, det_weights=checkpoint)
+        pass
 
-        if self.model.cfg.data.test["type"] == "ConcatDataset":
-            self.model.cfg.data.test.pipeline = self.model.cfg.data.test["datasets"][
-                0
-            ].pipeline
 
     def _predict(self, image_path: str) -> List[List[float]]:
-        return model_inference(self.model, image_path)["boundary_result"]
+        x = self.model(image_path)["predictions"]
+        result = []
+        # _polygons_with_probabilites_to_rectangle expects [*polygon, probability]
+        # this was default return value of the model but updating mmocr version changed it
+        for polygons, scores in zip(x[0]["det_polygons"], x[0]["det_scores"]):
+            result.append([*polygons, scores])
+        return result
 
     def _polygons_with_probabilites_to_rectangle(
         self, polygons_with_probabilites: Sequence[Sequence[float]]

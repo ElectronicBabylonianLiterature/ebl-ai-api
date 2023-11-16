@@ -1,222 +1,477 @@
-fourier_degree = 5
+train_pipeline_enhanced = [
+    dict(
+        type='LoadImageFromFile',
+        file_client_args=dict(backend='disk'),
+        color_type='color_ignore_orientation'),
+    dict(
+        type='LoadOCRAnnotations',
+        with_polygon=True,
+        with_bbox=True,
+        with_label=True),
+    dict(type='FixInvalidPolygon', min_poly_points=4),
+    dict(
+        type='RandomResize',
+        scale=(800, 800),
+        ratio_range=(0.75, 2.5),
+        keep_ratio=True),
+    dict(
+        type='TextDetRandomCropFlip',
+        crop_ratio=0.5,
+        iter_num=1,
+        min_area_ratio=0.2),
+    dict(
+        type='RandomApply',
+        transforms=[dict(type='RandomCrop', min_side_ratio=0.3)],
+        prob=0.8),
+    dict(
+        type='RandomApply',
+        transforms=[
+            dict(
+                type='RandomRotate',
+                max_angle=35,
+                pad_with_fixed_color=True,
+                use_canvas=True)
+        ],
+        prob=0.6),
+    dict(
+        type='RandomChoice',
+        transforms=[[{
+            'type': 'Resize',
+            'scale': 800,
+            'keep_ratio': True
+        }, {
+            'type': 'Pad',
+            'size': (800, 800)
+        }], {
+            'type': 'Resize',
+            'scale': 800,
+            'keep_ratio': False
+        }],
+        prob=[0.6, 0.4]),
+    dict(type='RandomFlip', prob=0.5, direction='horizontal'),
+    dict(type='RandomFlip', prob=0.5, direction='vertical'),
+    dict(
+        type='RandomApply',
+        transforms=[
+            dict(type='TorchVisionWrapper', op='ElasticTransform', alpha=75.0)
+        ],
+        prob=0.3333333333333333),
+    dict(
+        type='RandomApply',
+        transforms=[
+            dict(
+                type='RandomChoice',
+                transforms=[
+                    dict(
+                        type='TorchVisionWrapper',
+                        op='RandomAdjustSharpness',
+                        sharpness_factor=0),
+                    dict(
+                        type='TorchVisionWrapper',
+                        op='RandomAdjustSharpness',
+                        sharpness_factor=60),
+                    dict(
+                        type='TorchVisionWrapper',
+                        op='RandomAdjustSharpness',
+                        sharpness_factor=90)
+                ],
+                prob=[
+                    0.3333333333333333, 0.3333333333333333, 0.3333333333333333
+                ])
+        ],
+        prob=0.75),
+    dict(
+        type='TorchVisionWrapper',
+        op='ColorJitter',
+        brightness=0.15,
+        saturation=0.5,
+        contrast=0.3),
+    dict(
+        type='RandomApply',
+        transforms=[
+            dict(
+                type='RandomChoice',
+                transforms=[
+                    dict(type='TorchVisionWrapper', op='RandomEqualize'),
+                    dict(type='TorchVisionWrapper', op='RandomAutocontrast')
+                ],
+                prob=[0.5, 0.5])
+        ],
+        prob=0.8),
+    dict(type='FixInvalidPolygon', min_poly_points=4),
+    dict(
+        type='PackTextDetInputs',
+        meta_keys=('img_path', 'ori_shape', 'img_shape', 'scale_factor'))
+]
+file_client_args = dict(backend='disk')
 model = dict(
     type='FCENet',
     backbone=dict(
         type='mmdet.ResNet',
-        depth=18,
+        depth=50,
         num_stages=4,
         out_indices=(1, 2, 3),
         frozen_stages=-1,
         norm_cfg=dict(type='BN', requires_grad=True),
-        init_cfg=dict(type='Pretrained', checkpoint='torchvision://resnet18'),
-        norm_eval=False,
-        style='pytorch'),
+        init_cfg=dict(type='Pretrained', checkpoint='torchvision://resnet50'),
+        norm_eval=True,
+        style='pytorch',
+),
     neck=dict(
         type='mmdet.FPN',
-        in_channels=[128, 256, 512],
+        in_channels=[512, 1024, 2048],
         out_channels=256,
         add_extra_convs='on_output',
         num_outs=3,
         relu_before_extra_convs=True,
         act_cfg=None),
-    bbox_head=dict(
+    det_head=dict(
         type='FCEHead',
         in_channels=256,
-        scales=(8, 16, 32),
-        loss=dict(type='FCELoss'),
-        alpha=1.2,
-        beta=1.0,
-        text_repr_type='quad',
-        fourier_degree=5))
-train_cfg = None
-test_cfg = None
-dataset_type = 'IcdarDataset'
-data_root = './data'
-img_norm_cfg = dict(
+        fourier_degree=5,
+        module_loss=dict(
+            type='FCEModuleLoss',
+            num_sample=50,
+            level_proportion_range=((0, 0.25), (0.2, 0.65), (0.55, 1.0))),
+        postprocessor=dict(
+            type='FCEPostprocessor',
+            scales=(8, 16, 32),
+            text_repr_type='poly',
+            num_reconstr_points=50,
+            alpha=1.0,
+            beta=2.0,
+            score_thr=0.3)),
+    data_preprocessor=dict(
+        type='TextDetDataPreprocessor',
         mean=[86.65888836888392, 67.92744567921709, 53.78325960605914],
         std=[68.98970994105028, 57.20489382979894, 48.230552014910586],
-    to_rgb=True)
+        bgr_to_rgb=True,
+        pad_size_divisor=32))
+default_scope = 'mmocr'
+env_cfg = dict(
+    cudnn_benchmark=True,
+    mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0),
+    dist_cfg=dict(backend='nccl'))
+randomness = dict(seed=None)
+default_hooks = dict(
+    timer=dict(type='IterTimerHook'),
+    logger=dict(type='CustomLoggerHook', interval=1),
+    param_scheduler=dict(type='ParamSchedulerHook'),
+    checkpoint=dict(type='CheckpointHook', interval=100),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    sync_buffer=dict(type='SyncBuffersHook'),
+    visualization=dict(
+        type='VisualizationHook',
+        interval=1,
+        enable=True,
+        show=False,
+        draw_gt=True,
+        draw_pred=True))
+log_level = 'INFO'
+log_processor = dict(type='LogProcessor', window_size=10, by_epoch=True)
+load_from = '../../checkpoints/fcenet_resnet50-dcnv2.pth'
+resume = False
+val_evaluator = dict(type='HmeanIOUMetric')
+test_evaluator = dict(type='HmeanIOUMetric')
+vis_backends = [dict(type='LocalVisBackend')]
+visualizer = dict(
+    type='TextDetLocalVisualizer',
+    name='visualizer',
+    vis_backends=[
+        dict(type='LocalVisBackend'),
+        dict(type='TensorboardVisBackend')
+    ])
+optim_wrapper = dict(
+    type='OptimWrapper',
+    optimizer=dict(type='SGD', lr=0.0003, momentum=0.9, weight_decay=0.0005))
+train_cfg = dict(type='EpochBasedTrainLoop', max_epochs=1500, val_interval=50)
+val_cfg = dict(type='ValLoop')
+test_cfg = dict(type='TestLoop')
+param_scheduler = [dict(type='PolyLR', power=0.9, eta_min=1e-07, end=1500)]
 train_pipeline = [
-    dict(type='LoadImageFromFile'),
     dict(
-        type='LoadTextAnnotations',
+        type='LoadImageFromFile',
+        file_client_args=dict(backend='disk'),
+        color_type='color_ignore_orientation'),
+    dict(
+        type='LoadOCRAnnotations',
+        with_polygon=True,
         with_bbox=True,
-        with_mask=True,
-        poly2mask=False),
+        with_label=True),
+    dict(type='FixInvalidPolygon', min_poly_points=4),
     dict(
-        type='ColorJitter',
-        brightness=0.12549019607843137,
-        saturation=0.5,
-        contrast=0.5),
+        type='RandomResize',
+        scale=(800, 800),
+        ratio_range=(0.75, 2.5),
+        keep_ratio=True),
     dict(
-        type='Normalize',
-        mean=[123.675, 116.28, 103.53],
-        std=[58.395, 57.12, 57.375],
-        to_rgb=True),
-    dict(type='RandomScaling', size=800, scale=(0.75, 2.5)),
+        type='TextDetRandomCropFlip',
+        crop_ratio=0.5,
+        iter_num=1,
+        min_area_ratio=0.2),
     dict(
-        type='RandomCropFlip', crop_ratio=0.5, iter_num=1, min_area_ratio=0.2),
+        type='RandomApply',
+        transforms=[dict(type='RandomCrop', min_side_ratio=0.3)],
+        prob=0.8),
     dict(
-        type='RandomCropPolyInstances',
-        instance_key='gt_masks',
-        crop_ratio=0.8,
-        min_side_ratio=0.3),
-    dict(
-        type='RandomRotatePolyInstances',
-        rotate_ratio=0.5,
-        max_angle=30,
-        pad_with_fixed_color=False),
-    dict(type='SquareResizePad', target_size=800, pad_ratio=0.6),
-    dict(type='RandomFlip', flip_ratio=0.5, direction='horizontal'),
-    dict(type='Pad', size_divisor=32),
-    dict(
-        type='FCENetTargets',
-        fourier_degree=5,
-        level_proportion_range=((0, 0.4), (0.3, 0.7), (0.6, 1.0))),
-    dict(
-        type='CustomFormatBundle',
-        keys=['p3_maps', 'p4_maps', 'p5_maps'],
-        visualize=dict(flag=False, boundary_key=None)),
-    dict(type='Collect', keys=['img', 'p3_maps', 'p4_maps', 'p5_maps'])
-]
-test_pipeline = [
-    dict(type='LoadImageFromFile'),
-    dict(
-        type='MultiScaleFlipAug',
-        img_scale=(2260, 2260),
-        flip=False,
+        type='RandomApply',
         transforms=[
-            dict(type='Resize', img_scale=(1280, 800), keep_ratio=True),
             dict(
-                type='Normalize',
-                mean=[123.675, 116.28, 103.53],
-                std=[58.395, 57.12, 57.375],
-                to_rgb=True),
-            dict(type='Pad', size_divisor=32),
-            dict(type='ImageToTensor', keys=['img']),
-            dict(type='Collect', keys=['img'])
-        ])
+                type='RandomRotate',
+                max_angle=35,
+                pad_with_fixed_color=True,
+                use_canvas=True)
+        ],
+        prob=0.6),
+    dict(
+        type='RandomChoice',
+        transforms=[[{
+            'type': 'Resize',
+            'scale': 800,
+            'keep_ratio': True
+        }, {
+            'type': 'Pad',
+            'size': (800, 800)
+        }], {
+            'type': 'Resize',
+            'scale': 800,
+            'keep_ratio': False
+        }],
+        prob=[0.6, 0.4]),
+    dict(type='RandomFlip', prob=0.5, direction='horizontal'),
+    dict(type='RandomFlip', prob=0.5, direction='vertical'),
+    dict(
+        type='RandomApply',
+        transforms=[
+            dict(type='TorchVisionWrapper', op='ElasticTransform', alpha=75.0)
+        ],
+        prob=0.3333333333333333),
+    dict(
+        type='RandomApply',
+        transforms=[
+            dict(
+                type='RandomChoice',
+                transforms=[
+                    dict(
+                        type='TorchVisionWrapper',
+                        op='RandomAdjustSharpness',
+                        sharpness_factor=0),
+                    dict(
+                        type='TorchVisionWrapper',
+                        op='RandomAdjustSharpness',
+                        sharpness_factor=60),
+                    dict(
+                        type='TorchVisionWrapper',
+                        op='RandomAdjustSharpness',
+                        sharpness_factor=90)
+                ],
+                prob=[
+                    0.3333333333333333, 0.3333333333333333, 0.3333333333333333
+                ])
+        ],
+        prob=0.75),
+    dict(
+        type='TorchVisionWrapper',
+        op='ColorJitter',
+        brightness=0.15,
+        saturation=0.5,
+        contrast=0.3),
+    dict(
+        type='RandomApply',
+        transforms=[
+            dict(
+                type='RandomChoice',
+                transforms=[
+                    dict(type='TorchVisionWrapper', op='RandomEqualize'),
+                    dict(type='TorchVisionWrapper', op='RandomAutocontrast')
+                ],
+                prob=[0.5, 0.5])
+        ],
+        prob=0.8),
+    dict(type='FixInvalidPolygon', min_poly_points=4),
+    dict(
+        type='PackTextDetInputs',
+        meta_keys=('img_path', 'ori_shape', 'img_shape', 'scale_factor'))
 ]
-data = dict(
-    samples_per_gpu=6,
-    workers_per_gpu=4,
-    val_dataloader=dict(samples_per_gpu=1),
-    test_dataloader=dict(samples_per_gpu=1),
-    train=dict(
-        type='IcdarDataset',
-        ann_file='./data/instances_training.json',
-        img_prefix='./data/imgs',
+train_dataloader = dict(
+    batch_size=4,
+    num_workers=4,
+    persistent_workers=True,
+    sampler=dict(type='DefaultSampler', shuffle=True),
+    dataset=dict(
+        type='OCRDataset',
+        data_root='data/icdar2015',
+        ann_file='textdet_train.json',
+        filter_cfg=dict(filter_empty_gt=True, min_size=32),
         pipeline=[
-            dict(type='LoadImageFromFile'),
             dict(
-                type='LoadTextAnnotations',
+                type='LoadImageFromFile',
+                file_client_args=dict(backend='disk'),
+                color_type='color_ignore_orientation'),
+            dict(
+                type='LoadOCRAnnotations',
+                with_polygon=True,
                 with_bbox=True,
-                with_mask=True,
-                poly2mask=False),
+                with_label=True),
+            dict(type='FixInvalidPolygon', min_poly_points=4),
             dict(
-                type='ColorJitter',
-                brightness=0.12549019607843137,
-                saturation=0.5,
-                contrast=0.5),
+                type='RandomResize',
+                scale=(800, 800),
+                ratio_range=(0.75, 2.5),
+                keep_ratio=True),
             dict(
-                type='Normalize',
-                mean=[123.675, 116.28, 103.53],
-                std=[58.395, 57.12, 57.375],
-                to_rgb=True),
-            dict(type='RandomScaling', size=800, scale=(0.75, 2.5)),
-            dict(
-                type='RandomCropFlip',
+                type='TextDetRandomCropFlip',
                 crop_ratio=0.5,
                 iter_num=1,
                 min_area_ratio=0.2),
             dict(
-                type='RandomCropPolyInstances',
-                instance_key='gt_masks',
-                crop_ratio=0.8,
-                min_side_ratio=0.3),
+                type='RandomApply',
+                transforms=[dict(type='RandomCrop', min_side_ratio=0.3)],
+                prob=0.8),
             dict(
-                type='RandomRotatePolyInstances',
-                rotate_ratio=0.5,
-                max_angle=30,
-                pad_with_fixed_color=False),
-            dict(type='SquareResizePad', target_size=800, pad_ratio=0.6),
-            dict(type='RandomFlip', flip_ratio=0.5, direction='horizontal'),
-            dict(type='Pad', size_divisor=32),
-            dict(
-                type='FCENetTargets',
-                fourier_degree=5,
-                level_proportion_range=((0, 0.4), (0.3, 0.7), (0.6, 1.0))),
-            dict(
-                type='CustomFormatBundle',
-                keys=['p3_maps', 'p4_maps', 'p5_maps'],
-                visualize=dict(flag=False, boundary_key=None)),
-            dict(
-                type='Collect', keys=['img', 'p3_maps', 'p4_maps', 'p5_maps'])
-        ]),
-    val=dict(
-        type='IcdarDataset',
-        ann_file='./data/instances_validation.json',
-        img_prefix='./data/imgs',
-        pipeline=[
-            dict(type='LoadImageFromFile'),
-            dict(
-                type='MultiScaleFlipAug',
-                img_scale=(2260, 2260),
-                flip=False,
+                type='RandomApply',
                 transforms=[
                     dict(
-                        type='Resize', img_scale=(1280, 800), keep_ratio=True),
-                    dict(
-                        type='Normalize',
-                        mean=[123.675, 116.28, 103.53],
-                        std=[58.395, 57.12, 57.375],
-                        to_rgb=True),
-                    dict(type='Pad', size_divisor=32),
-                    dict(type='ImageToTensor', keys=['img']),
-                    dict(type='Collect', keys=['img'])
-                ])
-        ]),
-    test=dict(
-        type='IcdarDataset',
-        ann_file='./data/instances_validation.json',
-        img_prefix='./data/imgs',
-        pipeline=[
-            dict(type='LoadImageFromFile'),
+                        type='RandomRotate',
+                        max_angle=35,
+                        pad_with_fixed_color=True,
+                        use_canvas=True)
+                ],
+                prob=0.6),
             dict(
-                type='MultiScaleFlipAug',
-                img_scale=(2260, 2260),
-                flip=False,
+                type='RandomChoice',
+                transforms=[[{
+                    'type': 'Resize',
+                    'scale': 800,
+                    'keep_ratio': True
+                }, {
+                    'type': 'Pad',
+                    'size': (800, 800)
+                }], {
+                    'type': 'Resize',
+                    'scale': 800,
+                    'keep_ratio': False
+                }],
+                prob=[0.6, 0.4]),
+            dict(type='RandomFlip', prob=0.5, direction='horizontal'),
+            dict(type='RandomFlip', prob=0.5, direction='vertical'),
+            dict(
+                type='RandomApply',
                 transforms=[
                     dict(
-                        type='Resize', img_scale=(1280, 800), keep_ratio=True),
+                        type='TorchVisionWrapper',
+                        op='ElasticTransform',
+                        alpha=75.0)
+                ],
+                prob=0.3333333333333333),
+            dict(
+                type='RandomApply',
+                transforms=[
                     dict(
-                        type='Normalize',
-                        mean=[123.675, 116.28, 103.53],
-                        std=[58.395, 57.12, 57.375],
-                        to_rgb=True),
-                    dict(type='Pad', size_divisor=32),
-                    dict(type='ImageToTensor', keys=['img']),
-                    dict(type='Collect', keys=['img'])
-                ])
+                        type='RandomChoice',
+                        transforms=[
+                            dict(
+                                type='TorchVisionWrapper',
+                                op='RandomAdjustSharpness',
+                                sharpness_factor=0),
+                            dict(
+                                type='TorchVisionWrapper',
+                                op='RandomAdjustSharpness',
+                                sharpness_factor=60),
+                            dict(
+                                type='TorchVisionWrapper',
+                                op='RandomAdjustSharpness',
+                                sharpness_factor=90)
+                        ],
+                        prob=[
+                            0.3333333333333333, 0.3333333333333333,
+                            0.3333333333333333
+                        ])
+                ],
+                prob=0.75),
+            dict(
+                type='TorchVisionWrapper',
+                op='ColorJitter',
+                brightness=0.15,
+                saturation=0.5,
+                contrast=0.3),
+            dict(
+                type='RandomApply',
+                transforms=[
+                    dict(
+                        type='RandomChoice',
+                        transforms=[
+                            dict(
+                                type='TorchVisionWrapper',
+                                op='RandomEqualize'),
+                            dict(
+                                type='TorchVisionWrapper',
+                                op='RandomAutocontrast')
+                        ],
+                        prob=[0.5, 0.5])
+                ],
+                prob=0.8),
+            dict(type='FixInvalidPolygon', min_poly_points=4),
+            dict(
+                type='PackTextDetInputs',
+                meta_keys=('img_path', 'ori_shape', 'img_shape',
+                           'scale_factor'))
         ]))
-evaluation = dict(
-    interval=1600,
-    metric=['hmean-iou'],
-    save_best='hmean-iou:hmean',
-    rule='greater')
-optimizer = dict(type='Adam', lr=0.001)
-optimizer_config = dict(grad_clip=None)
-lr_config = dict(policy='poly', power=0.9, min_lr=1e-07, by_epoch=True)
-total_epochs = 1500
-checkpoint_config = dict(interval=50)
-log_config = dict(
-    interval=10,
-    hooks=[dict(type='TensorboardLoggerHook'),
-           dict(type='TextLoggerHook')])
-dist_params = dict(backend='nccl')
-log_level = 'INFO'
-load_from = './checkpoints/fcenet_cpu.pth'
-resume_from = None
-workflow = [('train', 1)]
-work_dir = 'logs/fcenet_no_dcvn/15'
-gpu_ids = range(0, 1)
+val_dataloader = dict(
+    batch_size=8,
+    num_workers=4,
+    persistent_workers=True,
+    sampler=dict(type='DefaultSampler', shuffle=False),
+    dataset=dict(
+        type='OCRDataset',
+        data_root='data/icdar2015',
+        ann_file='textdet_test.json',
+        test_mode=True,
+        pipeline=[
+            dict(
+                type='LoadImageFromFile',
+                file_client_args=dict(backend='disk'),
+                color_type='color_ignore_orientation'),
+            dict(type='Resize', scale=(2260, 2260), keep_ratio=True),
+            dict(
+                type='LoadOCRAnnotations',
+                with_polygon=True,
+                with_bbox=True,
+                with_label=True),
+            dict(
+                type='PackTextDetInputs',
+                meta_keys=('img_path', 'ori_shape', 'img_shape',
+                           'scale_factor'))
+        ]))
+test_dataloader = dict(
+    batch_size=4,
+    num_workers=8,
+    persistent_workers=True,
+    sampler=dict(type='DefaultSampler', shuffle=False),
+    dataset=dict(
+        type='OCRDataset',
+        data_root='data/icdar2015',
+        ann_file='textdet_test.json',
+        test_mode=True,
+        pipeline=[
+            dict(
+                type='LoadImageFromFile',
+                file_client_args=dict(backend='disk'),
+                color_type='color_ignore_orientation'),
+            dict(type='Resize', scale=(2260, 2260), keep_ratio=True),
+            dict(
+                type='LoadOCRAnnotations',
+                with_polygon=True,
+                with_bbox=True,
+                with_label=True),
+            dict(
+                type='PackTextDetInputs',
+                meta_keys=('img_path', 'ori_shape', 'img_shape',
+                           'scale_factor'))
+        ]))
+auto_scale_lr = dict(base_batch_size=16)
+optimizer_config = dict(
+    type='GradientCumulativeOptimizerHook', cumulative_iters=4)
+custom_hooks = [dict(type='CustomTensorboardLoggerHook', by_epoch=True)]
+launcher = 'none'
+work_dir = 'logs/yunus'
