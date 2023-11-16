@@ -6,11 +6,11 @@ attrs
 waitress
 gdown
 opencv-python
-mmengine
-mmdet==3.0.0rc6
-mmocr
---find-links --index-url https://download.openmmlab.com/mmcv/dist/cpu/torch2.0/index.html
-mmcv==2.0.1
+#mmengine
+#mmdet==3.0.0rc6
+#mmocr
+#--find-links --index-url https://download.openmmlab.com/mmcv/dist/cpu/torch2.0/index.html
+#mmcv==2.0.1
 flake8 
 pytest
 pytest-cov 
