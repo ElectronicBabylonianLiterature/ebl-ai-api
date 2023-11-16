@@ -6,6 +6,7 @@ attrs
 waitress
 gdown
 opencv-python
+mmengine
 mmdet==3.0.0rc6
 mmocr
 mmcv==2.0.1
