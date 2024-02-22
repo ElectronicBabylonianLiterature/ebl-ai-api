@@ -49,6 +49,10 @@ to check pytorch, mmcv, mmdet and mmocr installation.
 - [FCENET without deconvolutions](https://mmocr.readthedocs.io/en/latest/textdet_models.html#id6).
 - We use FCENET without deconvolutions and with Resnet-18 as Backbone (checkpoint and config specified in `./model` directory)
 
+### Checkpoints and Model Config
+- Checkpoint can be downloaded from [https://drive.google.com/uc?id=17vISNEucGkSyZSfWfu5eOrBtut2wXRJ6](https://drive.google.com/uc?id=17vISNEucGkSyZSfWfu5eOrBtut2wXRJ6) or from [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10693501.svg)](https://doi.org/10.5281/zenodo.10693501)
+- Model config is in [https://github.com/ElectronicBabylonianLiterature/ebl-ai-api/blob/main/model/fcenet_no_dcvn.py](https://github.com/ElectronicBabylonianLiterature/ebl-ai-api/blob/main/model/fcenet_no_dcvn.py)
+
 
 ## Running the tests
 - Use command `black ebl_ai_api` to format code.
