@@ -1,5 +1,7 @@
 # ebl-ai-api
 Data+Code is part of Paper **Sign Detection for Cuneiform Tablets from Yunus Cobanoglu, Luis Sáenz, Ilya Khait, Enrique Jiménez** please contact us for access to data on Zenodoo [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10693601.svg)](https://doi.org/10.5281/zenodo.10693601) and paper as it is under currently under review.
+See [https://github.com/ElectronicBabylonianLiterature/cuneiform-ocr/blob/main/README.md](https://github.com/ElectronicBabylonianLiterature/cuneiform-ocr/blob/main/README.md) for overview and general information of all repositories associated with the paper from above.
+
 ![Build Status](https://github.com/ElectronicBabylonianLiterature/ebl-ai-api/workflows/CI/badge.svg?branch=main)
 [![Maintainability](https://api.codeclimate.com/v1/badges/fd51b3cb4ea06f4e212f/maintainability)](https://codeclimate.com/github/ElectronicBabylonianLiterature/ebl-ai-api/maintainability)
 
