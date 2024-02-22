@@ -1,6 +1,8 @@
 # ebl-ai-api
+Data+Code is part of Paper **Sign Detection for Cuneiform Tablets from Yunus Cobanoglu, Luis Sáenz, Ilya Khait, Enrique Jiménez** please contact us for access to data on Zenodoo [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10693601.svg)](https://doi.org/10.5281/zenodo.10693601) and paper as it is under currently under review.
 ![Build Status](https://github.com/ElectronicBabylonianLiterature/ebl-ai-api/workflows/CI/badge.svg?branch=main)
 [![Maintainability](https://api.codeclimate.com/v1/badges/fd51b3cb4ea06f4e212f/maintainability)](https://codeclimate.com/github/ElectronicBabylonianLiterature/ebl-ai-api/maintainability)
+
 
 # Ebl Ai Api
 Server deploying a deep learning model for inference on detecting bounding boxes on cuneiform sign tablets
